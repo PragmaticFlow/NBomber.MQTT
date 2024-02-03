@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.0" />
       <PackageReference Include="MQTTnet" Version="4.3.3.952" />
       <PackageReference Include="NBomber.Contracts" Version="5.3.0" />
     </ItemGroup>
