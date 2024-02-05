@@ -3,6 +3,8 @@ using MQTTnet.Client;
 using MQTTnet.Packets;
 using MQTTnet.Protocol;
 using NBomber.Contracts;
+using System.Threading.Channels;
+using MQTTnet;
 
 namespace NBomber.MQTT;
 
@@ -10,13 +12,16 @@ public class MqttClient : IDisposable
 {
     public IMqttClient Client { get; }
 
+    private readonly Channel<MqttApplicationMessage> _channel;
+    
     public MqttClient (IMqttClient client)
     {
         Client = client;
-        /*Client.ApplicationMessageReceivedAsync += () =>
+        _channel = Channel.CreateUnbounded<MqttApplicationMessage>();
+        Client.ApplicationMessageReceivedAsync += async msg =>
         {
-           
-        }*/
+            await _channel.Writer.WriteAsync(msg.ApplicationMessage);
+        };
     }
     
     public async Task<Response<MqttClientConnectResult>> Connect(MqttClientOptions options,
@@ -72,6 +77,13 @@ public class MqttClient : IDisposable
         return new Response<MqttClientPublishResult>(statusCode: result.ReasonCode.ToString(), isError: true,
             sizeBytes: 0, message: result.ReasonString, payload: payloadForResponse);
     }
+
+    public async Task<Response<MqttApplicationMessage>> Receive()
+    {
+        var result = await _channel.Reader.ReadAsync();
+        return new Response<MqttApplicationMessage>(statusCode: string.Empty, isError: false,
+            sizeBytes: 0, message: string.Empty, payload: result);
+    }
     
     public async Task<Response<object>> Disconnect(
         MqttClientDisconnectOptionsReason reason = MqttClientDisconnectOptionsReason.NormalDisconnection,
@@ -82,7 +94,7 @@ public class MqttClient : IDisposable
     {
         await Client.DisconnectAsync(reason, reasonString, sessionExpiryInterval, userProperties, cancellationToken);
         
-        return new Response<object>(statusCode: string.Empty, isError: !Client.IsConnected, sizeBytes: 0,
+        return new Response<object>(statusCode: string.Empty, isError: false, sizeBytes: 0,
             message: string.Empty, payload: null);
     }
     
