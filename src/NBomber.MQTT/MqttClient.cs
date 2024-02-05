@@ -94,7 +94,7 @@ public class MqttClient : IDisposable
     {
         await Client.DisconnectAsync(reason, reasonString, sessionExpiryInterval, userProperties, cancellationToken);
         
-        return new Response<object>(statusCode: string.Empty, isError: false, sizeBytes: 0,
+        return new Response<object>(statusCode: string.Empty, isError: Client.IsConnected, sizeBytes: 0,
             message: string.Empty, payload: null);
     }
     
