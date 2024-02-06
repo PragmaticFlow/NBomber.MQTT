@@ -12,16 +12,16 @@ public class MqttClient : IDisposable
 {
     public IMqttClient Client { get; }
 
-    private readonly Channel<MqttApplicationMessage> _channel;
+    private readonly Channel<Response<MqttApplicationMessage>> _channel;
     
     public MqttClient (IMqttClient client)
     {
         Client = client;
-        _channel = Channel.CreateUnbounded<MqttApplicationMessage>();
-        Client.ApplicationMessageReceivedAsync += async msg =>
-        {
-            await _channel.Writer.WriteAsync(msg.ApplicationMessage);
-        };
+        _channel = Channel.CreateUnbounded<Response<MqttApplicationMessage>>();
+        Client.ApplicationMessageReceivedAsync +=  msg => 
+            _channel.Writer.WriteAsync(new Response<MqttApplicationMessage>(statusCode: string.Empty, isError: false,
+                sizeBytes: 0, message: string.Empty, payload: msg.ApplicationMessage))
+                .AsTask();
     }
     
     public async Task<Response<MqttClientConnectResult>> Connect(MqttClientOptions options,
@@ -49,41 +49,23 @@ public class MqttClient : IDisposable
         return new Response<MqttClientSubscribeResult>(statusCode: string.Empty, isError: false, sizeBytes: 0,
             message: string.Empty, payload: result);
     }
-
-    public async Task<Response<MqttClientPublishResult>> Publish(string topic, string text)
-    {
-        var result = await Client.PublishStringAsync(topic, text);
-        var payload = FSharpOption<MqttClientPublishResult>.Some(result);
-        if (result.IsSuccess)
-        {
-            return new Response<MqttClientPublishResult>(statusCode: result.ReasonCode.ToString(), isError: false,
-                sizeBytes: text.Length, message: string.Empty, payload: payload);
-        }
-            
-        return new Response<MqttClientPublishResult>(statusCode: result.ReasonCode.ToString(), isError: true,
-            sizeBytes: 0, message: result.ReasonString, payload: payload);
-    }
     
-    public async Task<Response<MqttClientPublishResult>> Publish(string topic, byte[] payload)
+    public async Task<Response<MqttClientPublishResult>> Publish(MqttApplicationMessage applicationMessage,
+        CancellationToken cancellationToken = default)
     {
-        var result = await Client.PublishBinaryAsync(topic, payload);
+        var result = await Client.PublishAsync(applicationMessage, cancellationToken);
         var payloadForResponse = FSharpOption<MqttClientPublishResult>.Some(result);
         if (result.IsSuccess)
         {
             return new Response<MqttClientPublishResult>(statusCode: result.ReasonCode.ToString(), isError: false,
-                sizeBytes: payload.Length, message: string.Empty, payload: payloadForResponse);
+                sizeBytes: applicationMessage.PayloadSegment.Count, message: string.Empty, payload: payloadForResponse);
         }
             
         return new Response<MqttClientPublishResult>(statusCode: result.ReasonCode.ToString(), isError: true,
             sizeBytes: 0, message: result.ReasonString, payload: payloadForResponse);
     }
 
-    public async Task<Response<MqttApplicationMessage>> Receive()
-    {
-        var result = await _channel.Reader.ReadAsync();
-        return new Response<MqttApplicationMessage>(statusCode: string.Empty, isError: false,
-            sizeBytes: 0, message: string.Empty, payload: result);
-    }
+    public async ValueTask<Response<MqttApplicationMessage>> Receive() =>  await _channel.Reader.ReadAsync();
     
     public async Task<Response<object>> Disconnect(
         MqttClientDisconnectOptionsReason reason = MqttClientDisconnectOptionsReason.NormalDisconnection,

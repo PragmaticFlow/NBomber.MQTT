@@ -25,8 +25,13 @@ public class MqttHelloTest
             var subscribe = await Step.Run("subscribe", ctx, async () =>
                 await mqttClient.Subscribe(topic));
 
-            var publish = await Step.Run("publish", ctx, async () => 
-                await mqttClient.Publish(topic, payload));
+            var publish = await Step.Run("publish", ctx, async () =>
+            {
+                var msg = new MqttApplicationMessageBuilder().WithTopic(topic)
+                    .WithPayload(payload).Build();
+                return await mqttClient.Publish(msg);
+            });
+             
 
             var receive = await Step.Run("receive", ctx, async () => 
                 await mqttClient.Receive());
