@@ -18,7 +18,10 @@ public class MqttHelloTest
 
             var connect = await Step.Run("connect", ctx, async () =>
             {
-                var options = new MqttClientOptionsBuilder().WithConnectionUri("ws://localhost:8083/mqtt").Build();
+                var options = new MqttClientOptionsBuilder().WithWebSocketServer(optionsBuilder =>
+                {
+                    optionsBuilder.WithUri("ws://localhost:8083/mqtt");
+                }).Build();
                 return await mqttClient.Connect(options);
             });
 
