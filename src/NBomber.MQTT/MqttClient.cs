@@ -18,10 +18,18 @@ public class MqttClient : IDisposable
     {
         Client = client;
         _channel = Channel.CreateUnbounded<Response<MqttApplicationMessage>>();
-        Client.ApplicationMessageReceivedAsync +=  msg => 
-            _channel.Writer.WriteAsync(new Response<MqttApplicationMessage>(statusCode: string.Empty, isError: false,
-                sizeBytes: 0, message: string.Empty, payload: msg.ApplicationMessage))
-                .AsTask();
+        
+        Client.ApplicationMessageReceivedAsync += msg =>
+        {
+            var response = new Response<MqttApplicationMessage>(
+                statusCode: string.Empty, isError: false,
+                sizeBytes: msg.ApplicationMessage.PayloadSegment.Count, message: string.Empty,
+                payload: msg.ApplicationMessage
+            );
+            
+            return _channel.Writer.WriteAsync(response).AsTask();
+        };
+
     }
     
     public async Task<Response<MqttClientConnectResult>> Connect(MqttClientOptions options,
@@ -65,7 +73,7 @@ public class MqttClient : IDisposable
             sizeBytes: 0, message: result.ReasonString, payload: payloadForResponse);
     }
 
-    public async ValueTask<Response<MqttApplicationMessage>> Receive() =>  await _channel.Reader.ReadAsync();
+    public ValueTask<Response<MqttApplicationMessage>> Receive() => _channel.Reader.ReadAsync();
     
     public async Task<Response<object>> Disconnect(
         MqttClientDisconnectOptionsReason reason = MqttClientDisconnectOptionsReason.NormalDisconnection,
