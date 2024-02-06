@@ -22,6 +22,7 @@ public class MqttHelloTest
                 {
                     optionsBuilder.WithUri("ws://localhost:8083/mqtt");
                 }).Build();
+                
                 return await mqttClient.Connect(options);
             });
 
@@ -32,6 +33,7 @@ public class MqttHelloTest
             {
                 var msg = new MqttApplicationMessageBuilder().WithTopic(topic)
                     .WithPayload(payload).Build();
+                
                 return await mqttClient.Publish(msg);
             });
              
