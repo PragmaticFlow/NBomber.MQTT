@@ -25,7 +25,6 @@ public class MqttClient : IDisposable
             
             return _channel.Writer.WriteAsync(response).AsTask();
         };
-
     }
     
     public async Task<Response<MqttClientConnectResult>> Connect(MqttClientOptions options,

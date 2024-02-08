@@ -36,7 +36,6 @@ public class MqttHelloTest
                 
                 return await mqttClient.Publish(msg);
             });
-             
 
             var receive = await Step.Run("receive", ctx, async () => 
                 await mqttClient.Receive());
