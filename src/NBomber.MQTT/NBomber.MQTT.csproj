@@ -21,6 +21,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="../../LICENSE" Pack="true" Visible="false" PackagePath="" />
+        <None Include="../../assets/nbomber_icon.png" Pack="true" Visible="false" PackagePath="" />
+    </ItemGroup>
+    
+    <ItemGroup>
       <PackageReference Include="MQTTnet" Version="4.3.3.952" />
       <PackageReference Include="NBomber.Contracts" Version="5.4.0-beta.0" />
       <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
