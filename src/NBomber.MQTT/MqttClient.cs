@@ -22,7 +22,6 @@ public class MqttClient : IDisposable
         Client.ApplicationMessageReceivedAsync += msg =>
         {
             var response = Response.Ok(sizeBytes:msg.ApplicationMessage.PayloadSegment.Count, payload:msg.ApplicationMessage);
-            
             return _channel.Writer.WriteAsync(response).AsTask();
         };
     }
