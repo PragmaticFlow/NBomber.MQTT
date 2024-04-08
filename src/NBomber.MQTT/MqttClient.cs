@@ -14,14 +14,14 @@ public class MqttClient : IDisposable
 
     private readonly Channel<Response<MqttApplicationMessage>> _channel;
     
-    public MqttClient (IMqttClient client)
+    public MqttClient(IMqttClient client)
     {
         Client = client;
         _channel = Channel.CreateUnbounded<Response<MqttApplicationMessage>>();
         
         Client.ApplicationMessageReceivedAsync += msg =>
         {
-            var response = Response.Ok(sizeBytes:msg.ApplicationMessage.PayloadSegment.Count, payload:msg.ApplicationMessage);
+            var response = Response.Ok(sizeBytes: msg.ApplicationMessage.PayloadSegment.Count, payload: msg.ApplicationMessage);
             return _channel.Writer.WriteAsync(response).AsTask();
         };
     }
