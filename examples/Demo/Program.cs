@@ -13,7 +13,7 @@ public class MqttHelloTest
 
         var scenario = Scenario.Create("mqtt_hello_scenario", async ctx =>
         {
-            var topic = $"/clients/{ctx.ScenarioInfo.ThreadId}";
+            var topic = $"/clients/{ctx.ScenarioInfo.InstanceId}";
             var mqttClient = new MqttClient(new MqttFactory().CreateMqttClient());
 
             var connect = await Step.Run("connect", ctx, async () =>
