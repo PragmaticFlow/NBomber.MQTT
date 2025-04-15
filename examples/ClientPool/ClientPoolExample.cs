@@ -34,6 +34,7 @@ public class ClientPoolExample
                 var msg = new MqttApplicationMessageBuilder()
                     .WithTopic(topic)
                     .WithPayload(message)
+                    .WithRetainFlag(usePersistence)
                     .Build();
 
                 return await mqttClient.Publish(msg);
@@ -59,6 +60,7 @@ public class ClientPoolExample
                 var options = new MqttClientOptionsBuilder()
                     .WithWebSocketServer(options => { options.WithUri(config.MqttServerUrl); })
                     .WithClientId(clientId)
+                    .WithCleanSession(!usePersistence)
                     .Build();
 
                 var mqttClient = new MqttClient(new MqttFactory().CreateMqttClient());
