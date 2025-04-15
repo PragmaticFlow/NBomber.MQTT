@@ -1,6 +1,7 @@
 ﻿using MQTTnet;
 using MQTTnet.Client;
 using NBomber.CSharp;
+using NBomber.Data;
 using MqttClient = NBomber.MQTT.MqttClient;
 
 new MqttHelloTest().Run();
@@ -9,7 +10,7 @@ public class MqttHelloTest
 {
     public void Run()
     {
-        var payload = "hello";
+        var payload = Data.GenerateRandomBytes(200);
 
         var scenario = Scenario.Create("mqtt_hello_scenario", async ctx =>
         {
