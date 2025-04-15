@@ -40,7 +40,7 @@ public class MqttHelloTest
             });
 
             var receive = await Step.Run("receive", ctx, async () => 
-                await mqttClient.Receive());
+                await mqttClient.Receive(ctx.ScenarioCancellationToken));
 
             var disconnect = await Step.Run("disconnect", ctx, async () =>
                 await mqttClient.Disconnect());

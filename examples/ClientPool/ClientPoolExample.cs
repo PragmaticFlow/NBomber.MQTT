@@ -40,7 +40,7 @@ public class ClientPoolExample
             });
 
             var receive = await Step.Run("receive", ctx, async () =>
-                await mqttClient.Receive());
+                await mqttClient.Receive(ctx.ScenarioCancellationToken));
 
             return Response.Ok();
         })
