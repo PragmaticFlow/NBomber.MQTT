@@ -13,7 +13,6 @@ public class CustomScenarioSettings
     public string MqttServerUrl { get; set; }
     public int ClientCount { get; set; }
     public int MsgSizeBytes { get; set; }
-    public bool UsePersistence { get; set; }
 }
 
 public class ClientPoolExample
@@ -22,7 +21,6 @@ public class ClientPoolExample
     {
         var clientPool = new ClientPool<MqttClient>();
         var message = Data.GenerateRandomBytes(200);
-        var usePersistence = false;
 
         var scenario = Scenario.Create("mqtt_scenario", async ctx =>
         {
@@ -34,7 +32,6 @@ public class ClientPoolExample
                 var msg = new MqttApplicationMessageBuilder()
                     .WithTopic(topic)
                     .WithPayload(message)
-                    .WithRetainFlag(usePersistence)
                     .Build();
 
                 return await mqttClient.Publish(msg);
@@ -50,8 +47,7 @@ public class ClientPoolExample
         .WithInit(async context =>
         {
             var config = context.CustomSettings.Get<CustomScenarioSettings>();
-            message = Data.GenerateRandomBytes(config.MsgSizeBytes);
-            usePersistence = config.UsePersistence;                    
+            message = Data.GenerateRandomBytes(config.MsgSizeBytes);                 
 
             for (var i = 0; i < config.ClientCount; i++)
             {
@@ -60,7 +56,6 @@ public class ClientPoolExample
                 var options = new MqttClientOptionsBuilder()
                     .WithWebSocketServer(options => { options.WithUri(config.MqttServerUrl); })
                     .WithClientId(clientId)
-                    .WithCleanSession(!usePersistence)
                     .Build();
 
                 var mqttClient = new MqttClient(new MqttFactory().CreateMqttClient());
