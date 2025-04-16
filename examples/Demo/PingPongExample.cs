@@ -3,9 +3,9 @@ using NBomber.CSharp;
 using NBomber.Data;
 using MqttClient = NBomber.MQTT.MqttClient;
 
-new MqttHelloTest().Run();
+new PingPongExample().Run();
 
-public class MqttHelloTest
+public class PingPongExample
 {
     public void Run()
     {
