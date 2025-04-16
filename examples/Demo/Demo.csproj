@@ -9,17 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\src\NBomber.MQTT\NBomber.MQTT.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="MQTTnet" Version="5.0.1.1416" />
       <PackageReference Include="NBomber" Version="6.0.1" />
+      <PackageReference Include="NBomber.Data" Version="6.0.0" />
       <PackageReference Include="System.Threading.Channels" Version="9.0.0" />
     </ItemGroup>
 
