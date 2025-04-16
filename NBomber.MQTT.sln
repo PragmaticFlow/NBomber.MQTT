@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBomber.MQTT", "src\NBomber.MQTT\NBomber.MQTT.csproj", "{30A1974C-D9ED-4A20-957E-84EA7AFEF2D7}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "examples\Demo\Demo.csproj", "{3538E262-C898-4005-BADF-1BEDED0A17FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientPool", "examples\ClientPool\ClientPool.csproj", "{84E29E1E-5475-4624-9658-4D000802466A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentActors", "examples\IndependentActors\IndependentActors.csproj", "{32239E59-6157-4AC7-B596-624A5D8DD2D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{84E29E1E-5475-4624-9658-4D000802466A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84E29E1E-5475-4624-9658-4D000802466A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84E29E1E-5475-4624-9658-4D000802466A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32239E59-6157-4AC7-B596-624A5D8DD2D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32239E59-6157-4AC7-B596-624A5D8DD2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32239E59-6157-4AC7-B596-624A5D8DD2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32239E59-6157-4AC7-B596-624A5D8DD2D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +42,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3538E262-C898-4005-BADF-1BEDED0A17FE} = {720D88FB-9FF7-4180-AF99-7832C8AF6D35}
 		{84E29E1E-5475-4624-9658-4D000802466A} = {720D88FB-9FF7-4180-AF99-7832C8AF6D35}
+		{32239E59-6157-4AC7-B596-624A5D8DD2D5} = {720D88FB-9FF7-4180-AF99-7832C8AF6D35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F9E5B46-8792-482C-83B7-6D7AB6625373}
