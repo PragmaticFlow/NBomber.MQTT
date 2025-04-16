@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MQTTnet;
-using MQTTnet.Client;
 using NBomber;
 using NBomber.CSharp;
 using NBomber.Data;
@@ -58,7 +57,7 @@ public class ClientPoolExample
                     .WithClientId(clientId)
                     .Build();
 
-                var mqttClient = new MqttClient(new MqttFactory().CreateMqttClient());
+                var mqttClient = new MqttClient(new MqttClientFactory().CreateMqttClient());
                 var connectResult = await mqttClient.Connect(options);                
 
                 if (!connectResult.IsError)

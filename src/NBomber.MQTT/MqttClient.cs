@@ -1,6 +1,5 @@
 ﻿using System.Threading.Channels;
 using MQTTnet;
-using MQTTnet.Client;
 using MQTTnet.Packets;
 using MQTTnet.Protocol;
 using NBomber.Contracts;
@@ -21,7 +20,7 @@ public class MqttClient : IDisposable
         
         Client.ApplicationMessageReceivedAsync += msg =>
         {
-            var response = Response.Ok(sizeBytes: msg.ApplicationMessage.PayloadSegment.Count, payload: msg.ApplicationMessage);
+            var response = Response.Ok(sizeBytes: msg.ApplicationMessage.Payload.Length, payload: msg.ApplicationMessage);
             return _channel.Writer.WriteAsync(response).AsTask();
         };
     }
@@ -51,7 +50,7 @@ public class MqttClient : IDisposable
         var result = await Client.PublishAsync(applicationMessage, cancellationToken);
         
         return result.IsSuccess
-            ? Response.Ok(payload: result, statusCode: result.ReasonCode.ToString(), sizeBytes: applicationMessage.PayloadSegment.Count)
+            ? Response.Ok(payload: result, statusCode: result.ReasonCode.ToString(), sizeBytes: applicationMessage.Payload.Length)
             : Response.Fail(payload: result, statusCode: result.ReasonCode.ToString(), message: result.ReasonString);
     }
 

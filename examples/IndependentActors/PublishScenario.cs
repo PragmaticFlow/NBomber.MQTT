@@ -1,10 +1,9 @@
-﻿using NBomber.Data;
+﻿using MQTTnet;
+using MQTTnet.Formatter;
+using NBomber.Data;
 using NBomber.Contracts;
 using NBomber.CSharp;
-using MQTTnet.Client;
-using MQTTnet;
 using MqttClient = NBomber.MQTT.MqttClient;
-using MQTTnet.Formatter;
 
 namespace IndependentActors;
 
@@ -47,7 +46,7 @@ public class PublishScenario
                 .WithProtocolVersion(MqttProtocolVersion.V500)
                 .Build();
 
-            mqttClient = new MqttClient(new MqttFactory().CreateMqttClient());
+            mqttClient = new MqttClient(new MqttClientFactory().CreateMqttClient());
             await mqttClient.Connect(options);            
         })
         .WithClean(async ctx =>

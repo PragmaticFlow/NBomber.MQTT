@@ -1,5 +1,4 @@
 ﻿using MQTTnet;
-using MQTTnet.Client;
 using NBomber.CSharp;
 using NBomber.Data;
 using MqttClient = NBomber.MQTT.MqttClient;
@@ -15,7 +14,7 @@ public class MqttHelloTest
         var scenario = Scenario.Create("mqtt_hello_scenario", async ctx =>
         {
             var topic = $"/clients/{ctx.ScenarioInfo.InstanceId}";
-            var mqttClient = new MqttClient(new MqttFactory().CreateMqttClient());
+            var mqttClient = new MqttClient(new MqttClientFactory().CreateMqttClient());
 
             var connect = await Step.Run("connect", ctx, async () =>
             {
