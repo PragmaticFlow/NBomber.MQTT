@@ -1,13 +1,14 @@
-﻿using MQTTnet;
+using MQTTnet;
 using NBomber.CSharp;
 using NBomber.Data;
 using MqttClient = NBomber.MQTT.MqttClient;
 
-new MqttHelloTest().Run();
+namespace Tests.MQTT;
 
-public class MqttHelloTest
+public class MqttTest
 {
-    public void Run()
+    [Fact]
+    public void EndToEnd()
     {
         var payload = Data.GenerateRandomBytes(200);
 
@@ -21,7 +22,7 @@ public class MqttHelloTest
                 var options = new MqttClientOptionsBuilder()
                     .WithWebSocketServer(options => { options.WithUri("ws://localhost:8083/mqtt"); })
                     .Build();
-                
+
                 return await mqttClient.Connect(options);
             });
 
@@ -34,11 +35,11 @@ public class MqttHelloTest
                     .WithTopic(topic)
                     .WithPayload(payload)
                     .Build();
-                
+
                 return await mqttClient.Publish(msg);
             });
 
-            var receive = await Step.Run("receive", ctx, async () => 
+            var receive = await Step.Run("receive", ctx, async () =>
                 await mqttClient.Receive(ctx.ScenarioCancellationToken));
 
             var disconnect = await Step.Run("disconnect", ctx, async () =>
@@ -48,12 +49,19 @@ public class MqttHelloTest
         })
         .WithoutWarmUp()
         .WithLoadSimulations(
-            Simulation.KeepConstant(1, TimeSpan.FromSeconds(30))
+            Simulation.KeepConstant(1, TimeSpan.FromSeconds(5))
         );
 
-        NBomberRunner
+        var stats = NBomberRunner
             .RegisterScenarios(scenario)
             .Run();
+
+        Assert.True(stats.AllOkCount > 0);
+
+        foreach (var scenarioStats in stats.ScenarioStats)
+        {
+            foreach (var stepStats in scenarioStats.StepStats)
+                Assert.True(stepStats.Ok.Latency.MinMs > 0);
+        }
     }
 }
-
