@@ -15,6 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndependentActors", "exampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBomber.MQTT.Tests", "tests\NBomber.MQTT.Tests\NBomber.MQTT.Tests.csproj", "{4FE5E5E2-3C48-4540-AE83-C35D4D52CB34}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{97514976-BCFE-4219-9039-029897819131}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{4842D17C-1347-409D-948B-1BD74B3AC688}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +56,7 @@ Global
 		{3538E262-C898-4005-BADF-1BEDED0A17FE} = {720D88FB-9FF7-4180-AF99-7832C8AF6D35}
 		{84E29E1E-5475-4624-9658-4D000802466A} = {720D88FB-9FF7-4180-AF99-7832C8AF6D35}
 		{32239E59-6157-4AC7-B596-624A5D8DD2D5} = {720D88FB-9FF7-4180-AF99-7832C8AF6D35}
+		{4FE5E5E2-3C48-4540-AE83-C35D4D52CB34} = {97514976-BCFE-4219-9039-029897819131}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F9E5B46-8792-482C-83B7-6D7AB6625373}
