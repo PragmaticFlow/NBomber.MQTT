@@ -38,11 +38,9 @@ public class PingPongExample
                 return await mqttClient.Publish(msg);
             });
 
-            var receive = await Step.Run("receive", ctx, async () => 
-                await mqttClient.Receive(ctx.ScenarioCancellationToken));
+            var receive = await Step.Run("receive", ctx, async () => await mqttClient.Receive(ctx.ScenarioCancellationToken));
 
-            var disconnect = await Step.Run("disconnect", ctx, async () =>
-                await mqttClient.Disconnect());
+            var disconnect = await Step.Run("disconnect", ctx, async () => await mqttClient.Disconnect());
 
             return Response.Ok();
         })
