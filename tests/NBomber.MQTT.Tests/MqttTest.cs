@@ -26,8 +26,7 @@ public class MqttTest
                 return await mqttClient.Connect(options);
             });
 
-            var subscribe = await Step.Run("subscribe", ctx, async () =>
-                await mqttClient.Subscribe(topic));
+            var subscribe = await Step.Run("subscribe", ctx, async () => await mqttClient.Subscribe(topic));
 
             var publish = await Step.Run("publish", ctx, async () =>
             {
@@ -39,11 +38,9 @@ public class MqttTest
                 return await mqttClient.Publish(msg);
             });
 
-            var receive = await Step.Run("receive", ctx, async () =>
-                await mqttClient.Receive(ctx.ScenarioCancellationToken));
+            var receive = await Step.Run("receive", ctx, async () => await mqttClient.Receive(ctx.ScenarioCancellationToken));
 
-            var disconnect = await Step.Run("disconnect", ctx, async () =>
-                await mqttClient.Disconnect());
+            var disconnect = await Step.Run("disconnect", ctx, async () => await mqttClient.Disconnect());
 
             return Response.Ok();
         })
@@ -57,6 +54,7 @@ public class MqttTest
             .Run();
 
         Assert.True(stats.AllOkCount > 0);
+        Assert.True(stats.AllFailCount == 0);
 
         foreach (var scenarioStats in stats.ScenarioStats)
         {

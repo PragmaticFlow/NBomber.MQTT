@@ -54,7 +54,18 @@ public class MqttClient : IDisposable
             : Response.Fail(payload: result, statusCode: result.ReasonCode.ToString(), message: result.ReasonString);
     }
 
-    public ValueTask<Response<MqttApplicationMessage>> Receive(CancellationToken token) => _channel.Reader.ReadAsync(token);
+    public async ValueTask<Response<MqttApplicationMessage>> Receive(CancellationToken token)
+    {
+        try
+        {
+            var response = await _channel.Reader.ReadAsync(token);
+            return response;
+        }
+        catch (OperationCanceledException ex)
+        {
+            throw new IgnoreMeasurementException();
+        }
+    }
     
     public async Task<Response<object>> Disconnect(
         MqttClientDisconnectOptionsReason reason = MqttClientDisconnectOptionsReason.NormalDisconnection,
