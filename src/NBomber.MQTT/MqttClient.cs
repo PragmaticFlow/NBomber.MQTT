@@ -21,7 +21,8 @@ public class MqttClient : IDisposable
         Client.ApplicationMessageReceivedAsync += msg =>
         {
             var response = Response.Ok(sizeBytes: msg.ApplicationMessage.Payload.Length, payload: msg.ApplicationMessage);
-            return _channel.Writer.WriteAsync(response).AsTask();
+            _channel.Writer.TryWrite(response);
+            return Task.CompletedTask;
         };
     }
     
@@ -61,7 +62,7 @@ public class MqttClient : IDisposable
             var response = await _channel.Reader.ReadAsync(token);
             return response;
         }
-        catch (OperationCanceledException ex)
+        catch (OperationCanceledException)
         {
             throw new IgnoreMeasurementException();
         }
