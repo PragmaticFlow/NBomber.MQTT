@@ -9,17 +9,19 @@ namespace NBomber.MQTT;
 
 public class MqttClient : IDisposable
 {
-    public IMqttClient Client { get; }
-
-    private readonly Channel<Response<MqttApplicationMessage>> _channel;
+    private readonly Channel<Response<MqttApplicationMessage>> _channel = Channel.CreateUnbounded<Response<MqttApplicationMessage>>();
+    private long _msgReceivedCount;
     
+    public IMqttClient Client { get; }
+    public long MsgReceivedCount => _msgReceivedCount;
+
     public MqttClient(IMqttClient client)
     {
         Client = client;
-        _channel = Channel.CreateUnbounded<Response<MqttApplicationMessage>>();
-        
         Client.ApplicationMessageReceivedAsync += msg =>
         {
+            Interlocked.Increment(ref _msgReceivedCount);
+                
             var response = Response.Ok(sizeBytes: msg.ApplicationMessage.Payload.Length, payload: msg.ApplicationMessage);
             _channel.Writer.TryWrite(response);
             return Task.CompletedTask;
