@@ -44,7 +44,7 @@ public class MqttTest
 
             return Response.Ok();
         })
-        .WithoutWarmUp()
+        .WithWarmUpDuration(TimeSpan.FromSeconds(5))
         .WithLoadSimulations(
             Simulation.KeepConstant(1, TimeSpan.FromSeconds(5))
         );
