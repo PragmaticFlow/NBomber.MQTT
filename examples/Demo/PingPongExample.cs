@@ -38,8 +38,8 @@ public class PingPongExample
 
             return Response.Ok();
         })
-        .WithWarmUpDuration(TimeSpan.FromSeconds(5))
-        .WithLoadSimulations(Simulation.KeepConstant(10, TimeSpan.FromSeconds(30)))
+        .WithoutWarmUp()
+        .WithLoadSimulations(Simulation.KeepConstant(1, TimeSpan.FromSeconds(30)))
         .WithInit(async context =>
         {
             for (var i = 0; i < 100; i++)

@@ -46,7 +46,7 @@ public class MqttTest
         })
         .WithWarmUpDuration(TimeSpan.FromSeconds(5))
         .WithLoadSimulations(
-            Simulation.KeepConstant(1, TimeSpan.FromSeconds(5))
+            Simulation.KeepConstant(10, TimeSpan.FromSeconds(5))
         );
 
         var stats = NBomberRunner
