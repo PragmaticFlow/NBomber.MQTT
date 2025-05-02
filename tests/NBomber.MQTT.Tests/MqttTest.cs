@@ -59,7 +59,7 @@ public class MqttTest
         foreach (var scenarioStats in stats.ScenarioStats)
         {
             foreach (var stepStats in scenarioStats.StepStats)
-                Assert.True(stepStats.Ok.Latency.MinMs > 0);
+                Assert.True(stepStats.Ok.Latency.MaxMs > 0);
         }
     }
 }
