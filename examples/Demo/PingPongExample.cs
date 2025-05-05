@@ -21,12 +21,11 @@ public class PingPongExample
                 var options = new MqttClientOptionsBuilder()
                     .WithWebSocketServer(options => { options.WithUri("ws://localhost:8083/mqtt"); })
                     .Build();
-                
+
                 return await mqttClient.Connect(options);
             });
 
-            var subscribe = await Step.Run("subscribe", ctx, async () =>
-                await mqttClient.Subscribe(topic));
+            var subscribe = await Step.Run("subscribe", ctx, async () => await mqttClient.Subscribe(topic));
 
             var publish = await Step.Run("publish", ctx, async () =>
             {
@@ -34,7 +33,7 @@ public class PingPongExample
                     .WithTopic(topic)
                     .WithPayload(payload)
                     .Build();
-                
+
                 return await mqttClient.Publish(msg);
             });
 
