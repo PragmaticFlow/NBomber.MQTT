@@ -101,7 +101,7 @@ public class MqttClient : IDisposable
     }
 
     /// <summary>
-    /// Asynchronously receives a queued MQTT message from the broker.
+    /// Asynchronously receives a MQTT message.
     /// </summary>
     /// <param name="token">Token used to cancel the operation.</param>
     /// <returns>
