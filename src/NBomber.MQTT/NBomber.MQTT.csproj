@@ -15,6 +15,7 @@
         <RepositoryUrl>https://github.com/PragmaticFlow/NBomber.MQTT</RepositoryUrl>
         <PackageTags>mqtt, load-testing, performance-testing, integration-testing</PackageTags>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Description>NBomber plugin for writing MQTT scenarios</Description>
         <Title>NBomber.MQTT</Title>
     </PropertyGroup>
