@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
         <LangVersion>12.0</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Version>0.4.1</Version>        
         <Company>NBomber</Company>
-        <Copyright>NBomber@2025</Copyright>
+        <Copyright>NBomber@2026</Copyright>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -27,9 +27,8 @@
 
     <PropertyGroup>
         <NuGetAudit>true</NuGetAudit>
-        <NuGetAuditMode>all</NuGetAuditMode> <!-- Audit direct and transitive packages -->
-        <NuGetAuditLevel>low</NuGetAuditLevel> <!-- Report low, moderate, high and critical advisories -->
-        <!-- Fails the build on CI or on release when a vulnerability is detected -->
+        <NuGetAuditMode>all</NuGetAuditMode>
+        <NuGetAuditLevel>low</NuGetAuditLevel>        
         <WarningsAsErrors>(WarningsAsErrors);NU1900;NU1901;NU1902;NU1903;NU1904</WarningsAsErrors>
     </PropertyGroup>
     
