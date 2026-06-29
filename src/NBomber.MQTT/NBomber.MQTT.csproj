@@ -20,21 +20,21 @@
         <Title>NBomber.MQTT</Title>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <NuGetAudit>true</NuGetAudit>
+        <NuGetAuditMode>all</NuGetAuditMode>
+        <NuGetAuditLevel>low</NuGetAuditLevel>
+        <WarningsAsErrors>NU1900;NU1901;NU1902;NU1903;NU1904</WarningsAsErrors>
+    </PropertyGroup>
+    
     <ItemGroup>
         <None Include="../../LICENSE" Pack="true" Visible="false" PackagePath="" />
         <None Include="../../assets/nbomber_icon.png" Pack="true" Visible="false" PackagePath="" />
     </ItemGroup>
-
-    <PropertyGroup>
-        <NuGetAudit>true</NuGetAudit>
-        <NuGetAuditMode>all</NuGetAuditMode>
-        <NuGetAuditLevel>low</NuGetAuditLevel>        
-        <WarningsAsErrors>(WarningsAsErrors);NU1900;NU1901;NU1902;NU1903;NU1904</WarningsAsErrors>
-    </PropertyGroup>
     
     <ItemGroup>
       <PackageReference Include="MQTTnet" Version="5.0.1.1416" />
-      <PackageReference Include="NBomber.Contracts" Version="6.1.0" />
+      <PackageReference Include="NBomber.Contracts" Version="6.2.1" />
     </ItemGroup>
 
 </Project>
